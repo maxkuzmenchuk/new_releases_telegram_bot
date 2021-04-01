@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.maxkuzmenchuk.new_releases_bot.util.ChannelParser.getIdChannelForResponse;
 import static com.maxkuzmenchuk.new_releases_bot.util.ChannelParser.setChannel;
 import static com.maxkuzmenchuk.new_releases_bot.util.SpotifyParser.getNewReleases;
 
@@ -33,7 +34,8 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         update.getUpdateId();
-        SendMessage msg = new SendMessage().enableMarkdown(true).setChatId(update.getMessage().getChatId());
+
+        SendMessage msg = new SendMessage().enableMarkdown(true).setChatId(setMessageId(update));
         List<String> response = response(update.getMessage().getText(), update.getMessage().getChat().getFirstName(), update.getMessage().getChat().getId());
 
         for (String resp : response) {
@@ -117,5 +119,28 @@ public class Bot extends TelegramLongPollingBot {
         return wrongResponse;
     }
 
+    /**
+     * Установка id для ответа
+     *
+     * @param updMessage - сообщение из телеграма
+     * @return id - идентификатор чата. куда отсылать ответ
+     */
+    public Long setMessageId(Update updMessage) {
+        String command = updMessage.getMessage().getText();
+        Long idBot = updMessage.getMessage().getChatId();
 
+        if (!command.equalsIgnoreCase("/update")) {
+            return idBot;
+        } else {
+            Long idChannel = getIdChannelForResponse(updMessage.getMessage().getChat().getId());
+
+            logger.info("idChannel = " + idChannel);
+
+            if (idChannel != null) {
+                return idChannel;
+            } else {
+                return idBot;
+            }
+        }
+    }
 }

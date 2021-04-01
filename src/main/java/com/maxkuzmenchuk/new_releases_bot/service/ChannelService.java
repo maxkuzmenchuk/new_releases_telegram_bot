@@ -24,4 +24,8 @@ public class ChannelService {
     public List findAll() {
         return channelRepository.findAll();
     }
+
+    public Channel findIdChannelForResponse(Long id) {
+        return channelRepository.findChannelByUserId(id);
+    }
 }

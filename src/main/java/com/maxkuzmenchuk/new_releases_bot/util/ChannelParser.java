@@ -24,6 +24,13 @@ public class ChannelParser {
         ChannelParser.channelService = channelService;
     }
 
+    /**
+     * Ввод личного канала для пользователя
+     *
+     * @param message - сообщение пользователя
+     * @param id      -
+     * @return String - ответ пользователю
+     */
     public static String setChannel(String message, Long id) {
         String result = "";
 
@@ -31,9 +38,10 @@ public class ChannelParser {
             String channelName = getChannelName(message);
             String channelId = getChannelId(channelName);
 
+            if (channelName.equalsIgnoreCase("error")) return StaticValues.NOT_VALID_CHANNEL_COMMAND_MESSAGE;
             if (channelId.equalsIgnoreCase("exist")) return StaticValues.CHANNEL_IS_EXISTS_MESSAGE;
 
-            saveChannel(channelName, channelId, id);
+            saveChannel(channelName, Long.parseLong(channelId), id);
 
             result = StaticValues.CHANNEL_SAVED_SUCCESSFULLY_MESSAGE;
         } else {
@@ -50,14 +58,15 @@ public class ChannelParser {
      * @return String - имя канала, если все прошло без ошибок
      */
     public static String getChannelName(String message) {
-        if (!message.contains("@")) return StaticValues.NOT_VALID_CHANNEL_COMMAND_MESSAGE;
+        String result = "";
+        if (!message.contains("@")) return "error";
 
-        String channelName = message.substring(message.indexOf("@") + 1);
-        logger.info("channelName is: " + channelName);
+        result = message.substring(message.indexOf("@") + 1);
+        logger.info("channelName is: " + result);
 
-        if (channelName.equalsIgnoreCase("")) return StaticValues.NO_CHANNEL_NAME_MESSAGE;
+        if (result.equalsIgnoreCase("")) return StaticValues.NO_CHANNEL_NAME_MESSAGE;
 
-        return channelName;
+        return result;
     }
 
     /**
@@ -117,7 +126,7 @@ public class ChannelParser {
      * @param channelName - имя канала
      * @param channelId   - id канала
      */
-    public static void saveChannel(String channelName, String channelId, Long id) {
+    public static void saveChannel(String channelName, Long channelId, Long id) {
         Channel c = new Channel();
 
         c.setChannelId(channelId);
@@ -129,18 +138,13 @@ public class ChannelParser {
         logger.info("Channel saved successfully!");
     }
 
-    private static void sendMsg(OkHttpClient httpClient, String chatId) throws IOException {
-        logger.info("CHAT ID: " + chatId);
-
-        Request request = new Request.Builder()
-                .url(StaticValues.MESSAGE_TO_CHANNEL_URL + "chat_id=" + chatId + "&text=123123123123")
-                .build();
-
-        try (Response response = httpClient.newCall(request).execute()) {
-
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-
-        }
+    /**
+     * Метод позволяет получить id канала по id пользователя
+     *
+     * @param id - id пользователя
+     * @return Long - id канала
+     */
+    public static Long getIdChannelForResponse(Long id) {
+        return channelService.findIdChannelForResponse(id).getChannelId();
     }
 }

@@ -7,7 +7,7 @@ create table new_releases_bot.user_channels
     id           serial  not null,
     user_id      int     not null,
     channel_name varchar not null,
-    channel_id   varchar not null
+    channel_id bigint not null
 );
 
 --drop table new_releases_bot.releases;

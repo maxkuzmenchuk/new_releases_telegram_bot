@@ -24,5 +24,5 @@ public class Channel {
     private String channelName;
 
     @Column(name = "channel_id")
-    private String channelId;
+    private Long channelId;
 }
