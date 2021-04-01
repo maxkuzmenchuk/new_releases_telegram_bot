@@ -27,13 +27,19 @@ public class SpotifyParser {
         SpotifyParser.releaseService = releaseService;
     }
 
+    /**
+     * Метод для получения массива, который содержит список новых релизов
+     *
+     * @return JSONArray - массив данных
+     * @throws Exception
+     */
     public static JSONArray getNewReleases() throws Exception {
         final OkHttpClient httpClient = new OkHttpClient();
         JSONArray releasesArray = new JSONArray();
 
         Request request = new Request.Builder()
-                .url("https://api.spotify.com/v1/browse/new-releases?country=RU&limit=1&offset=0")
-                .addHeader("Accept", "application/json")  // add request headers
+                .url("https://api.spotify.com/v1/browse/new-releases?country=RU&limit=2&offset=0")
+                .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "Bearer " + getToken())
                 .build();

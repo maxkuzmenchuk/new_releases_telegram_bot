@@ -10,6 +10,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.maxkuzmenchuk.new_releases_bot.util.ChannelParser.setChannel;
 import static com.maxkuzmenchuk.new_releases_bot.util.SpotifyParser.getNewReleases;
 
@@ -31,50 +34,76 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         update.getUpdateId();
         SendMessage msg = new SendMessage().enableMarkdown(true).setChatId(update.getMessage().getChatId());
-        msg.setText(response(update.getMessage().getText(), update.getMessage().getChat().getFirstName(), update.getMessage().getChat().getId()));
+        List<String> response = response(update.getMessage().getText(), update.getMessage().getChat().getFirstName(), update.getMessage().getChat().getId());
 
-        try {
-            logger.info("===== Response to user: =====");
-            logger.info("Chat ID: " + msg.getChatId());
-            logger.info("Body: \n" + msg.getText());
-            logger.info("=============================");
+        for (String resp : response) {
+            msg.setText(resp);
 
+            try {
+                logger.info("===== Response to user: =====");
+                logger.info("Chat ID: " + msg.getChatId());
+                logger.info("Body: \n" + msg.getText());
+                logger.info("=============================");
 
-
-            execute(msg);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
+                execute(msg);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public String response(String msg, String name, Long id) {
+    /**
+     * Метод для создания текста ответа на команды
+     *
+     * @param msg  - команда, которую ввел пользователь
+     * @param name - имя пользователя
+     * @param id   - id чата
+     * @return List<String> - список с ответами
+     */
+    public List<String> response(String msg, String name, Long id) {
 
-        if (msg.startsWith("/channel")) return setChannel(msg, id);
+        if (msg.startsWith("/channel")) {
+            List<String> channelResponse = new ArrayList<>();
+            channelResponse.add(setChannel(msg, id));
+
+            return channelResponse;
+        }
 
         switch (msg.trim()) {
             case "/start":
-
-                return "Hello, " + name + "! \uD83D\uDC4B\uD83C\uDFFB "
+                List<String> startResponse = new ArrayList<>();
+                startResponse.add("Hello, " + name + "! \uD83D\uDC4B\uD83C\uDFFB "
                         + "\n "
-                        + "\n Используй команду /help для получения справочной информации";
+                        + "\n Используй команду /help для получения справочной информации");
+
+                return startResponse;
             case "/help":
-                return StaticValues.HELP_MESSAGE;
+                List<String> helpResponse = new ArrayList<>();
+                helpResponse.add(StaticValues.HELP_MESSAGE);
+
+                return helpResponse;
             case "/update":
+                List<String> updateResponse = new ArrayList<>();
+
                 try {
                     logger.info("Getting info from Spotify API");
                     JSONArray releases = getNewReleases();
 
-                    JSONObject release = releases.getJSONObject(0);
+                    for (int i = 0; i < releases.length(); i++) {
+                        JSONObject release = releases.getJSONObject(i);
 
-                    return " \uD83D\uDD25\uD83D\uDD25 New Drop! \uD83D\uDD25\uD83D\uDD25"
-                            + "\n "
-                            + "\n \uD83D\uDCAD Artist: " + release.getString("artists")
-                            + "\n \uD83D\uDCDD Title: " + release.getString("release_name")
-                            + "\n \uD83D\uDCBF Type: " + release.getString("release_type")
-                            + "\n \uD83D\uDCC6 Release date: " + release.getString("release_date")
-                            + "\n \uD83C\uDFA7 Number of tracks: " + release.getInt("total_tracks")
-                            + "\n "
-                            + "\n \uD83D\uDD17 URL: " + release.getString("release_url");
+                        updateResponse.add(" \uD83D\uDD25\uD83D\uDD25 New Drop! \uD83D\uDD25\uD83D\uDD25"
+                                + "\n "
+                                + "\n \uD83D\uDCAD Artist: " + release.getString("artists")
+                                + "\n \uD83D\uDCDD Title: " + release.getString("release_name")
+                                + "\n \uD83D\uDCBF Type: " + release.getString("release_type")
+                                + "\n \uD83D\uDCC6 Release date: " + release.getString("release_date")
+                                + "\n \uD83C\uDFA7 Number of tracks: " + release.getInt("total_tracks")
+                                + "\n "
+                                + "\n \uD83D\uDD17 URL: " + release.getString("release_url"));
+                    }
+
+                    return updateResponse;
 
                 } catch (Exception e) {
                     logger.error("Update error: ", e);
@@ -82,7 +111,10 @@ public class Bot extends TelegramLongPollingBot {
                 break;
         }
 
-        return StaticValues.WRONG_MESSAGE;
+        List<String> wrongResponse = new ArrayList<>();
+        wrongResponse.add(StaticValues.WRONG_MESSAGE);
+
+        return wrongResponse;
     }
 
 
