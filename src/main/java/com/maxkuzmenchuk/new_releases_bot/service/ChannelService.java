@@ -1,5 +1,7 @@
-package com.maxkuzmenchuk.new_releases_bot.repository;
+package com.maxkuzmenchuk.new_releases_bot.service;
 
+import com.maxkuzmenchuk.new_releases_bot.repository.ChannelRepository;
+import com.maxkuzmenchuk.new_releases_bot.repository.model.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

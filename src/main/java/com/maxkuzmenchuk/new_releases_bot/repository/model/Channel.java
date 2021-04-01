@@ -1,4 +1,4 @@
-package com.maxkuzmenchuk.new_releases_bot.repository;
+package com.maxkuzmenchuk.new_releases_bot.repository.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

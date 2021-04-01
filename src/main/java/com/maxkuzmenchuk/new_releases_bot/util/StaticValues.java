@@ -20,13 +20,14 @@ public class StaticValues {
 
 
     /**
-     *  ### Данные для работы с Telegram ###
+     * ### Данные для работы с Telegram ###
+     *
      * @field BOT_NAME - имя бота
      * @field BOT_TOKEN - токен для работы с сервером
      */
-    public static final String BOT_NAME = "@name";
+    public static final String BOT_NAME = "@TestMSC_bot";
 
-    public static final String BOT_TOKEN = "AAAAAAAAA:BBBBBBBBBBBBB";
+    public static final String BOT_TOKEN = "1750890938:AAGhhTK8QiUi7JbHM2pZ5W2KkPqITWpUFyE";
 
     public static final String MESSAGE_TO_CHANNEL_URL = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?";
 

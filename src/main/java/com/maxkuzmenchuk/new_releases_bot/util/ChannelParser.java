@@ -1,7 +1,7 @@
 package com.maxkuzmenchuk.new_releases_bot.util;
 
-import com.maxkuzmenchuk.new_releases_bot.repository.Channel;
-import com.maxkuzmenchuk.new_releases_bot.repository.ChannelService;
+import com.maxkuzmenchuk.new_releases_bot.repository.model.Channel;
+import com.maxkuzmenchuk.new_releases_bot.service.ChannelService;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -17,7 +17,7 @@ import java.io.IOException;
 public class ChannelParser {
     private static final Logger logger = LoggerFactory.getLogger(ChannelParser.class);
 
-   static ChannelService channelService;
+    static ChannelService channelService;
 
     @Autowired
     public ChannelParser(ChannelService channelService) {
@@ -45,6 +45,7 @@ public class ChannelParser {
 
     /**
      * Метод для получения имени канала
+     *
      * @param message - сообщение от пользователя
      * @return String - имя канала, если все прошло без ошибок
      */
