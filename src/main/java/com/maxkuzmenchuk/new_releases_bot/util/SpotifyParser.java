@@ -1,5 +1,6 @@
 package com.maxkuzmenchuk.new_releases_bot.util;
 
+import com.maxkuzmenchuk.new_releases_bot.repository.model.Release;
 import com.maxkuzmenchuk.new_releases_bot.service.ReleaseService;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import static com.maxkuzmenchuk.new_releases_bot.util.AccessToken.getToken;
@@ -41,9 +43,16 @@ public class SpotifyParser {
     public static JSONArray getNewReleases() throws Exception {
         final OkHttpClient httpClient = new OkHttpClient();
         JSONArray releasesArray = new JSONArray();
+        LocalDate recentReleaseDate = releaseService.findRecentDate();
+
+        if (recentReleaseDate == null) {
+            recentReleaseDate = LocalDate.now().minusWeeks(1L);
+
+            logger.info("Recent Release Date :: " + recentReleaseDate.toString());
+        }
 
         Request request = new Request.Builder()
-                .url("https://api.spotify.com/v1/browse/new-releases?country=RU&limit=2&offset=0")
+                .url("https://api.spotify.com/v1/browse/new-releases?country=RU&limit=20&offset=0")
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "Bearer " + getToken())
@@ -67,16 +76,30 @@ public class SpotifyParser {
                 String releaseURL = albums.getJSONObject(i).getJSONObject("external_urls").getString("spotify");
                 int totalTracks = albums.getJSONObject(i).getInt("total_tracks");
 
-                JSONObject release = new JSONObject();
-                release.put("release_id", releaseId);
-                release.put("artists", artists);
-                release.put("release_name", releaseName);
-                release.put("release_type", releaseType);
-                release.put("release_date", releaseDate);
-                release.put("total_tracks", totalTracks);
-                release.put("release_url", releaseURL);
+                if (LocalDate.parse(releaseDate).isAfter(recentReleaseDate)) {
+                    JSONObject releaseJson = new JSONObject();
+                    releaseJson.put("release_id", releaseId);
+                    releaseJson.put("artists", artists);
+                    releaseJson.put("release_name", releaseName);
+                    releaseJson.put("release_type", releaseType);
+                    releaseJson.put("release_date", releaseDate);
+                    releaseJson.put("total_tracks", totalTracks);
+                    releaseJson.put("release_url", releaseURL);
 
-                releasesArray.put(release);
+                    releasesArray.put(releaseJson);
+
+                    // save release to database
+                    Release releaseObject = new Release();
+
+                    releaseObject.setReleaseId(releaseId);
+                    releaseObject.setArtist(artists);
+                    releaseObject.setReleaseName(releaseName);
+                    releaseObject.setReleaseType(releaseType);
+                    releaseObject.setReleaseDate(LocalDate.parse(releaseDate));
+                    releaseObject.setUrl(releaseURL);
+
+                    releaseService.save(releaseObject);
+                }
             }
         } catch (Exception e) {
             logger.error("URL execute Exception", e);

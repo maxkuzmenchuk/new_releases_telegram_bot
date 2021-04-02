@@ -44,18 +44,18 @@ public class ChannelParser {
                 String channelName = getChannelName(message);
                 String channelId = getChannelId(channelName);
 
-                if (channelName.equalsIgnoreCase("error")) return StaticValues.NOT_VALID_CHANNEL_COMMAND_MESSAGE;
-                if (channelId.equalsIgnoreCase("exist")) return StaticValues.CHANNEL_IS_EXISTS_MESSAGE;
+                if (channelName.equalsIgnoreCase("error")) return StaticValues.NOT_VALID_CHANNEL_COMMAND;
+                if (channelId.equalsIgnoreCase("exist")) return StaticValues.CHANNEL_IS_EXISTS;
 
                 saveChannel(channelName, Long.parseLong(channelId), id);
 
-                result = StaticValues.CHANNEL_SAVED_SUCCESSFULLY_MESSAGE;
+                result = StaticValues.CHANNEL_SAVED_SUCCESSFULLY;
             } else {
                 String userChannelName = channelService.findChannelByUserId(id).getChannelName();
                 result = StaticValues.CHANNEL_FOR_USER_IS_EXISTS + " Название канала: " + userChannelName;
             }
         } else {
-            result = StaticValues.NO_CHANNEL_ID_MESSAGE;
+            result = StaticValues.NO_CHANNEL_ID;
         }
 
         return result;
@@ -76,9 +76,9 @@ public class ChannelParser {
             if (userChannelIsExists(id)) {
                 channelService.deleteChannelByUserId(id);
 
-                res = StaticValues.CHANNEL_DELETED_SUCCESSFULLY_MESSAGE;
+                res = StaticValues.CHANNEL_DELETED_SUCCESSFULLY;
             } else {
-                res = StaticValues.NO_CHANNEL_FOR_USER_MESSAGE;
+                res = StaticValues.NO_CHANNEL_FOR_USER;
             }
         } else {
             res = StaticValues.DELETION_ERROR;
@@ -101,7 +101,7 @@ public class ChannelParser {
         result = message.substring(message.indexOf("@") + 1);
         logger.info("channelName is: " + result);
 
-        if (result.equalsIgnoreCase("")) return StaticValues.NO_CHANNEL_NAME_MESSAGE;
+        if (result.equalsIgnoreCase("")) return StaticValues.NO_CHANNEL_NAME;
 
         return result;
     }

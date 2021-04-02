@@ -38,6 +38,7 @@ public class Bot extends TelegramLongPollingBot {
         List<String> response = response(update);
 
         for (String resp : response) {
+            if (resp.equalsIgnoreCase(StaticValues.NO_NEW_RELEASES)) msg.setChatId(update.getMessage().getChatId());
             msg.setText(resp);
 
             try {
@@ -51,6 +52,7 @@ public class Bot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
+        logger.info("Sending messages done!");
     }
 
     /**
@@ -91,25 +93,31 @@ public class Bot extends TelegramLongPollingBot {
                     logger.info("Getting info from Spotify API");
                     JSONArray releases = getNewReleases();
 
-                    for (int i = 0; i < releases.length(); i++) {
-                        JSONObject release = releases.getJSONObject(i);
+                    if (!releases.isEmpty()) {
+                        for (int i = 0; i < releases.length(); i++) {
+                            JSONObject release = releases.getJSONObject(i);
 
-                        updateResponse.add(" \uD83D\uDD25\uD83D\uDD25 New Drop! \uD83D\uDD25\uD83D\uDD25"
-                                + "\n "
-                                + "\n \uD83D\uDCAD Исполнитель: " + release.getString("artists")
-                                + "\n \uD83D\uDCDD Название: " + release.getString("release_name")
-                                + "\n \uD83D\uDCBF Тип: " + release.getString("release_type")
-                                + "\n \uD83D\uDCC6 Дата выхода: " + release.getString("release_date")
-                                + "\n \uD83C\uDFA7 Количество треков: " + release.getInt("total_tracks")
-                                + "\n "
-                                + "\n \uD83D\uDD17 Ссылка: " + release.getString("release_url"));
+                            updateResponse.add(" \uD83D\uDD25\uD83D\uDD25 New Drop! \uD83D\uDD25\uD83D\uDD25"
+                                    + "\n "
+                                    + "\n \uD83D\uDCAD Исполнитель: " + release.getString("artists")
+                                    + "\n \uD83D\uDCDD Название: " + release.getString("release_name")
+                                    + "\n \uD83D\uDCBF Тип: " + release.getString("release_type")
+                                    + "\n \uD83D\uDCC6 Дата выхода: " + release.getString("release_date")
+                                    + "\n \uD83C\uDFA7 Количество треков: " + release.getInt("total_tracks")
+                                    + "\n "
+                                    + "\n \uD83D\uDD17 Ссылка: " + release.getString("release_url"));
+                        }
+
+                        return updateResponse;
+                    } else {
+                        updateResponse.add(StaticValues.NO_NEW_RELEASES);
+
+                        return updateResponse;
                     }
-
-                    return updateResponse;
-
                 } catch (Exception e) {
                     logger.error("Update error: ", e);
                 }
+
                 break;
             case "/delete":
                 List<String> deleteResponse = new ArrayList<>();
