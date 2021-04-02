@@ -16,6 +16,11 @@ import java.util.Objects;
 
 import static com.maxkuzmenchuk.new_releases_bot.util.AccessToken.getToken;
 
+/**
+ * Working with Spotify API
+ * <p>
+ * Getting list of new releases
+ */
 @Component
 public class SpotifyParser {
     private static final Logger logger = LoggerFactory.getLogger(SpotifyParser.class);
@@ -28,10 +33,10 @@ public class SpotifyParser {
     }
 
     /**
-     * Метод для получения массива, который содержит список новых релизов
+     * Getting array of new releases
      *
-     * @return JSONArray - массив данных
-     * @throws Exception
+     * @return JSONArray of data about new releases
+     * @throws Exception - if errors is happening
      */
     public static JSONArray getNewReleases() throws Exception {
         final OkHttpClient httpClient = new OkHttpClient();
@@ -80,10 +85,10 @@ public class SpotifyParser {
     }
 
     /**
-     * Метод для генерации строки артистов релиза
+     * Create artist names string
      *
-     * @param artists - массив с данными об артистах из json
-     * @return String - строку с перечислением исполнилей
+     * @param artists - array with data about artists from json
+     * @return string of artist names
      */
     private static String getArtistsName(JSONArray artists) {
         StringBuilder allNames = new StringBuilder();

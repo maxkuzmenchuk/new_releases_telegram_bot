@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * Handle operations (set or delete) with user channel
+ */
 @Component
 public class ChannelParser {
     private static final Logger logger = LoggerFactory.getLogger(ChannelParser.class);
@@ -25,11 +28,11 @@ public class ChannelParser {
     }
 
     /**
-     * Ввод личного канала для пользователя
+     * Set channel to user
      *
-     * @param message - сообщение пользователя
-     * @param id      - id пользователя
-     * @return String - ответ пользователю
+     * @param message - user message
+     * @param id      - user id
+     * @return response to user
      */
     public static String setChannel(String message, Long id) {
         String result = "";
@@ -59,11 +62,11 @@ public class ChannelParser {
     }
 
     /**
-     * Метод для удаления привязки канала к пользователю
+     * Delete user channel
      *
-     * @param msg - сообщение пользователя
-     * @param id  - id пользователя
-     * @return res - ответ пользователю
+     * @param msg - user message
+     * @param id  - user id
+     * @return response to user
      */
     public static String deleteChannel(String msg, Long id) {
         String res = "";
@@ -78,7 +81,7 @@ public class ChannelParser {
                 res = StaticValues.NO_CHANNEL_FOR_USER_MESSAGE;
             }
         } else {
-            res = StaticValues.DELETING_ERROR;
+            res = StaticValues.DELETION_ERROR;
         }
 
         return res;
@@ -86,10 +89,10 @@ public class ChannelParser {
     }
 
     /**
-     * Метод для получения имени канала
+     * Get channel name
      *
-     * @param message - сообщение от пользователя
-     * @return String - имя канала, если все прошло без ошибок
+     * @param message - user message
+     * @return channel name
      */
     public static String getChannelName(String message) {
         String result = "";
@@ -104,10 +107,10 @@ public class ChannelParser {
     }
 
     /**
-     * Метод для получения id канала
+     * Get id channel
      *
-     * @param channelName - имя канала
-     * @return String - id канала, если все прошло без ошибок; NO_CHANNEL_NAME_MESSAGE - если после @ пустота
+     * @param channelName - channel name
+     * @return id channel if errors not happened; NO_CHANNEL_NAME_MESSAGE if string is empty after @
      */
     public static String getChannelId(String channelName) {
         final OkHttpClient httpClient = new OkHttpClient();
@@ -141,9 +144,9 @@ public class ChannelParser {
     }
 
     /**
-     * Метод для проверки наличия введенного канала
+     * Check if channel is exists in database
      *
-     * @return boolean - true, если канал уже существует
+     * @return true - if channel is exists, false - if not
      */
     public static boolean isChannelExist(String channelName) {
 
@@ -155,11 +158,11 @@ public class ChannelParser {
     }
 
     /**
-     * Метод для сохранинения данных канала в БД
+     * Save channel to database
      *
-     * @param id          - id пользователя
-     * @param channelName - имя канала
-     * @param channelId   - id канала
+     * @param id          - user id
+     * @param channelName - channel name
+     * @param channelId   - channel id
      */
     public static void saveChannel(String channelName, Long channelId, Long id) {
         Channel c = new Channel();
@@ -174,20 +177,20 @@ public class ChannelParser {
     }
 
     /**
-     * Метод позволяет получить id канала по id пользователя
+     * Get id channel by user id
      *
-     * @param id - id пользователя
-     * @return Long - id канала
+     * @param id - user id
+     * @return channel id
      */
     public static Long getIdChannelForResponse(Long id) {
         return channelService.findChannelByUserId(id).getChannelId();
     }
 
     /**
-     * Проверка, задан ли канал для данного юзера
+     * Check if channel already set for this user
      *
-     * @param id - id пользователя
-     * @return true - канал для данного пользователя задан, в противном случае false
+     * @param id - user id
+     * @return true - if channel already set, false - if not
      */
     public static boolean userChannelIsExists(Long id) {
         Channel channel = channelService.findChannelByUserId(id);

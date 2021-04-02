@@ -54,10 +54,10 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     /**
-     * Метод для создания текста ответа на команды
+     * Creating response to user
      *
-     * @param update - данные Telegram API
-     * @return List<String> - список с ответами
+     * @param update - Telegram API data
+     * @return response list
      */
     public List<String> response(Update update) {
         String msg = update.getMessage().getText();
@@ -96,13 +96,13 @@ public class Bot extends TelegramLongPollingBot {
 
                         updateResponse.add(" \uD83D\uDD25\uD83D\uDD25 New Drop! \uD83D\uDD25\uD83D\uDD25"
                                 + "\n "
-                                + "\n \uD83D\uDCAD Artist: " + release.getString("artists")
-                                + "\n \uD83D\uDCDD Title: " + release.getString("release_name")
-                                + "\n \uD83D\uDCBF Type: " + release.getString("release_type")
-                                + "\n \uD83D\uDCC6 Release date: " + release.getString("release_date")
-                                + "\n \uD83C\uDFA7 Number of tracks: " + release.getInt("total_tracks")
+                                + "\n \uD83D\uDCAD Исполнитель: " + release.getString("artists")
+                                + "\n \uD83D\uDCDD Название: " + release.getString("release_name")
+                                + "\n \uD83D\uDCBF Тип: " + release.getString("release_type")
+                                + "\n \uD83D\uDCC6 Дата выхода: " + release.getString("release_date")
+                                + "\n \uD83C\uDFA7 Количество треков: " + release.getInt("total_tracks")
                                 + "\n "
-                                + "\n \uD83D\uDD17 URL: " + release.getString("release_url"));
+                                + "\n \uD83D\uDD17 Ссылка: " + release.getString("release_url"));
                     }
 
                     return updateResponse;
@@ -125,10 +125,10 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     /**
-     * Установка id для ответа
+     * Set id for response
      *
-     * @param updMessage - сообщение из телеграма
-     * @return id - идентификатор чата. куда отсылать ответ
+     * @param updMessage - message from Telegram API
+     * @return chat id to response
      */
     public Long setMessageId(Update updMessage) {
         String command = updMessage.getMessage().getText();

@@ -2,15 +2,19 @@ package com.maxkuzmenchuk.new_releases_bot.util;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * Some static values for Telegram, Spotify and messages for users
+ */
+
 @UtilityClass
 public class StaticValues {
 
     /**
-     * ### Значения для работы со Spotify API ###
+     * ### Values for Spotify API ###
      *
-     * @apiNote REFRESH_TOKEN - токен для обновления токена доступа к Spotify API
-     * @apiNote CLIENT_ID - id приложения, созданного на Spotify for Developers
-     * @apiNote CLIENT_SECRET - ключ приложения
+     * @apiNote REFRESH_TOKEN - token for updating access token to Spotify API
+     * @apiNote CLIENT_ID - app id from Spotify for Developers
+     * @apiNote CLIENT_SECRET - app key
      */
     public static final String REFRESH_TOKEN = "AQBA7xp9xos09gRgLCMPfYJ3_If8EtDABUh0_GuwSHP5aJ3HcGSlOkIRFxW3iy" +
             "mzzKWuMVAX5viJ7R7CqrSNNmyvEC5D8T4HxSUh8UJEhOFEsndSQMdoE5ShQX8znUk1W9s";
@@ -21,10 +25,10 @@ public class StaticValues {
 
 
     /**
-     * ### Данные для работы с Telegram ###
+     * ### Values for Telegram ###
      *
-     * @apiNote BOT_NAME - имя бота
-     * @apiNote BOT_TOKEN - токен для работы с сервером
+     * @apiNote BOT_NAME - bot name @name
+     * @apiNote BOT_TOKEN - token for Telegram API
      */
     public static final String BOT_NAME = "@TestMSC_bot";
 
@@ -36,18 +40,18 @@ public class StaticValues {
     /**
      * ### Messages ###
      *
-     * @apiNote HELP_MESSAGE - сообщение, которое выводится при вызове команды /help
-     * @apiNote NOT_VALID_CHANNEL_COMMAND_MESSAGE - ошибка ввода канала
-     * @apiNote NO_CHANNEL_NAME_MESSAGE -  при пустая строка после @
-     * @apiNote NO_CHANNEL_ID_MESSAGE - ошибка поиска ID канала @
-     * @apiNote DELETING_ERROR - ошибка удаления канала
-     * @apiNote NO_CHANNEL_FOR_USER_MESSAGE - отсутствует привязка канала к аккаунту
-     * @apiNote WRONG_MESSAGE - вызове команды начинающейся не с /
-     * @apiNote CHANNEL_TEST_MESSAGE - тестовое сообщение в канал
-     * @apiNote CHANNEL_IS_EXISTS_MESSAGE - канал уже существует в БД
-     * @apiNote CHANNEL_FOR_USER_IS_EXISTS - канал уже уже установлен для данного пользовтеля
-     * @apiNote CHANNEL_SAVED_SUCCESSFULLY - канал успешно сохранен в БД
-     * @apiNote CHANNEL_DELETED_SUCCESSFULLY_MESSAGE - канал успешно удален
+     * @apiNote HELP_MESSAGE - /help command response
+     * @apiNote NOT_VALID_CHANNEL_COMMAND_MESSAGE - wrong /channel input
+     * @apiNote NO_CHANNEL_NAME_MESSAGE -  empty string after @
+     * @apiNote NO_CHANNEL_ID_MESSAGE - id channel search error
+     * @apiNote DELETION_ERROR - channel deletion error
+     * @apiNote NO_CHANNEL_FOR_USER_MESSAGE - channel is not set for user
+     * @apiNote WRONG_MESSAGE - input message not start with /
+     * @apiNote CHANNEL_TEST_MESSAGE - test message to user channel
+     * @apiNote CHANNEL_IS_EXISTS_MESSAGE - channel is exists in database
+     * @apiNote CHANNEL_FOR_USER_IS_EXISTS - channel is already set for user
+     * @apiNote CHANNEL_SAVED_SUCCESSFULLY - successful saving channel to database
+     * @apiNote CHANNEL_DELETED_SUCCESSFULLY_MESSAGE - successful deletion
      */
     public static final String HELP_MESSAGE = "ℹ️ *Список доступных команд и их описание*: \n"
             + "\n \uD83D\uDCE2 /channel - позволяет установить свой канал, куда будут приходить обновления \n"
@@ -68,7 +72,7 @@ public class StaticValues {
 
     public static final String NO_CHANNEL_ID_MESSAGE = "❌ *Ошибка получения ID канала!*";
 
-    public static final String DELETING_ERROR = "❌ *Ошибка удаления канала!*";
+    public static final String DELETION_ERROR = "❌ *Ошибка удаления канала!*";
 
     public static final String NO_CHANNEL_FOR_USER_MESSAGE = "❌ *Для данного пользователя канал не установлен!*";
 

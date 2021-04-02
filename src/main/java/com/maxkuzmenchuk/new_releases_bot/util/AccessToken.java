@@ -7,11 +7,18 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-
+/**
+ * Class for update access_token for each query to Spotify API
+ */
 public class AccessToken {
     private static final Logger logger = LoggerFactory.getLogger(AccessToken.class);
 
-
+    /**
+     * Get token from Spotify API to get response from api
+     *
+     * @return token for accessing api
+     * @throws IOException - exception if response is not successful
+     */
     public static String getToken() throws IOException {
         final OkHttpClient httpClient = new OkHttpClient();
 
