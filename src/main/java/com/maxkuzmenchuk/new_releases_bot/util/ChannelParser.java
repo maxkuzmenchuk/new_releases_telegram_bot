@@ -28,22 +28,29 @@ public class ChannelParser {
      * Ввод личного канала для пользователя
      *
      * @param message - сообщение пользователя
-     * @param id      -
+     * @param id      - id пользователя
      * @return String - ответ пользователю
      */
     public static String setChannel(String message, Long id) {
         String result = "";
 
         if (!message.equalsIgnoreCase("")) {
-            String channelName = getChannelName(message);
-            String channelId = getChannelId(channelName);
 
-            if (channelName.equalsIgnoreCase("error")) return StaticValues.NOT_VALID_CHANNEL_COMMAND_MESSAGE;
-            if (channelId.equalsIgnoreCase("exist")) return StaticValues.CHANNEL_IS_EXISTS_MESSAGE;
+            if (!userChannelIsExists(id)) {
 
-            saveChannel(channelName, Long.parseLong(channelId), id);
+                String channelName = getChannelName(message);
+                String channelId = getChannelId(channelName);
 
-            result = StaticValues.CHANNEL_SAVED_SUCCESSFULLY_MESSAGE;
+                if (channelName.equalsIgnoreCase("error")) return StaticValues.NOT_VALID_CHANNEL_COMMAND_MESSAGE;
+                if (channelId.equalsIgnoreCase("exist")) return StaticValues.CHANNEL_IS_EXISTS_MESSAGE;
+
+                saveChannel(channelName, Long.parseLong(channelId), id);
+
+                result = StaticValues.CHANNEL_SAVED_SUCCESSFULLY_MESSAGE;
+            } else {
+                String userChannelName = channelService.findChannelByUserId(id).getChannelName();
+                result = StaticValues.CHANNEL_FOR_USER_IS_EXISTS + " Название канала: " + userChannelName;
+            }
         } else {
             result = StaticValues.NO_CHANNEL_ID_MESSAGE;
         }
@@ -123,6 +130,7 @@ public class ChannelParser {
     /**
      * Метод для сохранинения данных канала в БД
      *
+     * @param id          - id пользователя
      * @param channelName - имя канала
      * @param channelId   - id канала
      */
@@ -145,6 +153,18 @@ public class ChannelParser {
      * @return Long - id канала
      */
     public static Long getIdChannelForResponse(Long id) {
-        return channelService.findIdChannelForResponse(id).getChannelId();
+        return channelService.findChannelByUserId(id).getChannelId();
+    }
+
+    /**
+     * Проверка, задан ли канал для данного юзера
+     *
+     * @param id - id пользователя
+     * @return true - канал для данного пользователя задан, в противном случае false
+     */
+    public static boolean userChannelIsExists(Long id) {
+        Channel channel = channelService.findChannelByUserId(id);
+
+        return channel != null;
     }
 }

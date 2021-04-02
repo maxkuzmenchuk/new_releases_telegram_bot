@@ -67,5 +67,7 @@ public class StaticValues {
 
     public static final String CHANNEL_IS_EXISTS_MESSAGE = "❌ *Канал уже существует в базе данных*";
 
+    public static final String CHANNEL_FOR_USER_IS_EXISTS = "❌ *Для данного аккаунта канал уже установлен* \n Удалить существующий канал: </delete @___имяканала___> \n\n";
+
     public static final String CHANNEL_SAVED_SUCCESSFULLY_MESSAGE = "✔️ *Канал успешно добавлен!*";
 }

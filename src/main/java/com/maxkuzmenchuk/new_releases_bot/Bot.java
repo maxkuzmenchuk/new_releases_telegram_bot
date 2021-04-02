@@ -36,7 +36,7 @@ public class Bot extends TelegramLongPollingBot {
         update.getUpdateId();
 
         SendMessage msg = new SendMessage().enableMarkdown(true).setChatId(setMessageId(update));
-        List<String> response = response(update.getMessage().getText(), update.getMessage().getChat().getFirstName(), update.getMessage().getChat().getId());
+        List<String> response = response(update);
 
         for (String resp : response) {
             msg.setText(resp);
@@ -57,12 +57,13 @@ public class Bot extends TelegramLongPollingBot {
     /**
      * Метод для создания текста ответа на команды
      *
-     * @param msg  - команда, которую ввел пользователь
-     * @param name - имя пользователя
-     * @param id   - id чата
+     * @param update - данные Telegram API
      * @return List<String> - список с ответами
      */
-    public List<String> response(String msg, String name, Long id) {
+    public List<String> response(Update update) {
+        String msg = update.getMessage().getText();
+        String name = update.getMessage().getChat().getFirstName();
+        Long id = update.getMessage().getChat().getId();
 
         if (msg.startsWith("/channel")) {
             List<String> channelResponse = new ArrayList<>();
