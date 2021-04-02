@@ -28,4 +28,8 @@ public class ChannelService {
     public Channel findChannelByUserId(Long id) {
         return channelRepository.findChannelByUserId(id);
     }
+
+    public void deleteChannelByUserId(Long id) {
+        channelRepository.deleteByUserId(id);
+    }
 }

@@ -7,9 +7,10 @@ public class StaticValues {
 
     /**
      * ### Значения для работы со Spotify API ###
-     * @field REFRESH_TOKEN - токен для обновления токена доступа к Spotify API
-     * @field CLIENT_ID - id приложения, созданного на Spotify for Developers
-     * @field CLIENT_SECRET - ключ приложения
+     *
+     * @apiNote REFRESH_TOKEN - токен для обновления токена доступа к Spotify API
+     * @apiNote CLIENT_ID - id приложения, созданного на Spotify for Developers
+     * @apiNote CLIENT_SECRET - ключ приложения
      */
     public static final String REFRESH_TOKEN = "AQBA7xp9xos09gRgLCMPfYJ3_If8EtDABUh0_GuwSHP5aJ3HcGSlOkIRFxW3iy" +
             "mzzKWuMVAX5viJ7R7CqrSNNmyvEC5D8T4HxSUh8UJEhOFEsndSQMdoE5ShQX8znUk1W9s";
@@ -22,8 +23,8 @@ public class StaticValues {
     /**
      * ### Данные для работы с Telegram ###
      *
-     * @field BOT_NAME - имя бота
-     * @field BOT_TOKEN - токен для работы с сервером
+     * @apiNote BOT_NAME - имя бота
+     * @apiNote BOT_TOKEN - токен для работы с сервером
      */
     public static final String BOT_NAME = "@TestMSC_bot";
 
@@ -33,14 +34,20 @@ public class StaticValues {
 
 
     /**
-     *   ### Messages ###
-     *  @field HELP_MESSAGE - сообщение, которое выводится при вызове команды /help
-     *  @field NOT_VALID_CHANNEL_COMMAND_MESSAGE - ошибка ввода канала
-     *  @field NO_CHANNEL_NAME_MESSAGE - сообщение, которое выводится при пустой строке после @
-     *  @field NO_CHANNEL_ID_MESSAGE - ошибка поиска ID канала @
-     *  @field WRONG_MESSAGE - сообщение, которое выводится при вызове команды начинающейся не с /
-     *  @field CHANNEL_IS_EXISTS_MESSAGE - канал уже существует в БД
-     *  @field CHANNEL_SAVED_SUCCESSFULLY - канал успешно сохранен в БД
+     * ### Messages ###
+     *
+     * @apiNote HELP_MESSAGE - сообщение, которое выводится при вызове команды /help
+     * @apiNote NOT_VALID_CHANNEL_COMMAND_MESSAGE - ошибка ввода канала
+     * @apiNote NO_CHANNEL_NAME_MESSAGE -  при пустая строка после @
+     * @apiNote NO_CHANNEL_ID_MESSAGE - ошибка поиска ID канала @
+     * @apiNote DELETING_ERROR - ошибка удаления канала
+     * @apiNote NO_CHANNEL_FOR_USER_MESSAGE - отсутствует привязка канала к аккаунту
+     * @apiNote WRONG_MESSAGE - вызове команды начинающейся не с /
+     * @apiNote CHANNEL_TEST_MESSAGE - тестовое сообщение в канал
+     * @apiNote CHANNEL_IS_EXISTS_MESSAGE - канал уже существует в БД
+     * @apiNote CHANNEL_FOR_USER_IS_EXISTS - канал уже уже установлен для данного пользовтеля
+     * @apiNote CHANNEL_SAVED_SUCCESSFULLY - канал успешно сохранен в БД
+     * @apiNote CHANNEL_DELETED_SUCCESSFULLY_MESSAGE - канал успешно удален
      */
     public static final String HELP_MESSAGE = "ℹ️ *Список доступных команд и их описание*: \n"
             + "\n \uD83D\uDCE2 /channel - позволяет установить свой канал, куда будут приходить обновления \n"
@@ -61,13 +68,19 @@ public class StaticValues {
 
     public static final String NO_CHANNEL_ID_MESSAGE = "❌ *Ошибка получения ID канала!*";
 
+    public static final String DELETING_ERROR = "❌ *Ошибка удаления канала!*";
+
+    public static final String NO_CHANNEL_FOR_USER_MESSAGE = "❌ *Для данного пользователя канал не установлен!*";
+
     public static final String WRONG_MESSAGE = "❌ Что-то пошло не так \uD83E\uDD2D Введи команду /help для справки";
 
     public static final String CHANNEL_TEST_MESSAGE = "Не забывай проверять канал!\uD83D\uDE09";
 
-    public static final String CHANNEL_IS_EXISTS_MESSAGE = "❌ *Канал уже существует в базе данных*";
+    public static final String CHANNEL_IS_EXISTS_MESSAGE = "❌ *Канал с таким именем уже существует в базе данных*";
 
-    public static final String CHANNEL_FOR_USER_IS_EXISTS = "❌ *Для данного аккаунта канал уже установлен* \n Удалить существующий канал: </delete @___имяканала___> \n\n";
+    public static final String CHANNEL_FOR_USER_IS_EXISTS = "❌ *Для данного аккаунта канал уже установлен* \n Удалить существующий канал: /delete \n\n";
 
     public static final String CHANNEL_SAVED_SUCCESSFULLY_MESSAGE = "✔️ *Канал успешно добавлен!*";
+
+    public static final String CHANNEL_DELETED_SUCCESSFULLY_MESSAGE = "✔️ *Канал успешно удален!*";
 }

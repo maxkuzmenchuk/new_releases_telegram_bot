@@ -13,8 +13,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.maxkuzmenchuk.new_releases_bot.util.ChannelParser.getIdChannelForResponse;
-import static com.maxkuzmenchuk.new_releases_bot.util.ChannelParser.setChannel;
+import static com.maxkuzmenchuk.new_releases_bot.util.ChannelParser.*;
 import static com.maxkuzmenchuk.new_releases_bot.util.SpotifyParser.getNewReleases;
 
 
@@ -112,6 +111,11 @@ public class Bot extends TelegramLongPollingBot {
                     logger.error("Update error: ", e);
                 }
                 break;
+            case "/delete":
+                List<String> deleteResponse = new ArrayList<>();
+                deleteResponse.add(deleteChannel(msg, id));
+
+                return deleteResponse;
         }
 
         List<String> wrongResponse = new ArrayList<>();

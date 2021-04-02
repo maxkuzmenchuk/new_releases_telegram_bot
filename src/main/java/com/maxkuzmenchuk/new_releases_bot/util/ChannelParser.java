@@ -59,6 +59,33 @@ public class ChannelParser {
     }
 
     /**
+     * Метод для удаления привязки канала к пользователю
+     *
+     * @param msg - сообщение пользователя
+     * @param id  - id пользователя
+     * @return res - ответ пользователю
+     */
+    public static String deleteChannel(String msg, Long id) {
+        String res = "";
+
+        if (!msg.equalsIgnoreCase("")) {
+
+            if (userChannelIsExists(id)) {
+                channelService.deleteChannelByUserId(id);
+
+                res = StaticValues.CHANNEL_DELETED_SUCCESSFULLY_MESSAGE;
+            } else {
+                res = StaticValues.NO_CHANNEL_FOR_USER_MESSAGE;
+            }
+        } else {
+            res = StaticValues.DELETING_ERROR;
+        }
+
+        return res;
+
+    }
+
+    /**
      * Метод для получения имени канала
      *
      * @param message - сообщение от пользователя
@@ -116,7 +143,7 @@ public class ChannelParser {
     /**
      * Метод для проверки наличия введенного канала
      *
-     * @return boolean - true if channel already exist
+     * @return boolean - true, если канал уже существует
      */
     public static boolean isChannelExist(String channelName) {
 
